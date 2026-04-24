@@ -52,6 +52,31 @@ Each row in `weights` belongs to one neuron. `np.dot(weights, inputs)` computes 
 
 ---
 
+## 3. Two Hidden Layers (`two-hidden-layers.py`)
+
+The diagram shows a fully connected (dense) neural network with:
+- **Input layer** — 4 neurons, one per feature
+- **Hidden Layer 1** — 3 neurons
+- **Hidden Layer 2** — 3 neurons
+
+Every neuron in each layer is connected to every neuron in the next layer (orange lines).
+
+```python
+inputs = [[1, 2, 3, 2.5], [2., 5., -1., 2], [-1.5, 2.7, 3.3, -0.8]]
+```
+
+This is a **batch of 3 samples**, each with **4 features**:
+
+| Sample | Feature 1 | Feature 2 | Feature 3 | Feature 4 |
+|--------|-----------|-----------|-----------|-----------|
+| 1      | 1.0       | 2.0       | 3.0       | 2.5       |
+| 2      | 2.0       | 5.0       | -1.0      | 2.0       |
+| 3      | -1.5      | 2.7       | 3.3       | -0.8      |
+
+The 4 values in each sample map to the 4 input neurons. The 3 rows represent 3 samples processed as a batch — the diagram reflects the structure for a single sample.
+
+---
+
 ## Key Concepts
 
 | Concept | Description |
