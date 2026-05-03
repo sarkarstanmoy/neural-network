@@ -224,3 +224,4 @@ latex/*.snm
 latex/*.vrb
 latex/_minted*/
 latex/auto/
+media/

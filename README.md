@@ -86,3 +86,170 @@ The 4 values in each sample map to the 4 input neurons. The 3 rows represent 3 s
 | **Bias** | Learnable offset added after the weighted sum |
 | **`np.dot`** | Efficiently computes weighted sums across all neurons |
 | **Batch** | Multiple samples processed together in one forward pass |
+
+---
+
+## Manim Animations
+
+Step-by-step animated explainers for each concept, built with [Manim](https://www.manim.community/). Designed to be beginner-friendly (class 9 level).
+
+### Installation
+
+**Prerequisites (macOS):**
+
+```bash
+brew install py-cairo ffmpeg
+pip install manim
+```
+
+**Verify:**
+
+```bash
+manim --version
+```
+
+> If you get a LaTeX error, install missing packages:
+> ```bash
+> sudo mktexlsr
+> sudo tlmgr install standalone preview
+> ```
+
+---
+
+### Running an Animation
+
+```bash
+manim -pql <filename>.py <ClassName>
+```
+
+| Flag | Meaning |
+|------|---------|
+| `-p` | Auto-play video when done |
+| `-ql` | Low quality (fast) — use `-qm` or `-qh` for better quality |
+
+Output is saved to `media/videos/<filename>/480p15/<ClassName>.mp4`
+
+---
+
+### Animation Files
+
+#### `three_neurons_anim.py` — Three Neuron Layer
+
+```bash
+manim -pql three_neurons_anim.py ThreeNeurons
+```
+
+Animates the forward pass through a single layer of 3 neurons:
+- 4 input nodes with values
+- Weighted connections (green = positive, red = negative)
+- Bias labels per neuron
+- Computed output values
+- Formula: output = W · x + b
+
+---
+
+#### `two_hidden_layers_anim.py` — Two Hidden Layers
+
+```bash
+manim -pql two_hidden_layers_anim.py TwoHiddenLayers
+```
+
+Animates a full two-layer forward pass using sample `[1, 2, 3, 2.5]`:
+- Input → Layer 1 connections with weight labels
+- Layer 1 intermediate outputs
+- Layer 1 → Layer 2 connections with weight labels
+- Final output values
+- Formula: o = W₂ · (W₁ · x + b₁) + b₂
+
+---
+
+#### `softmax_anim.py` — Softmax Function
+
+```bash
+manim -pql softmax_anim.py SoftmaxExplained
+```
+
+Explains Softmax using a Cat / Dog / Bird classifier:
+
+| Scene | Content |
+|-------|---------|
+| 1 | Raw scores bar chart — shows they don't sum to 100% |
+| 2 | Step 1: Apply eˣ to each score |
+| 3 | Step 2: Divide by sum → probabilities |
+| 4 | Final % bars with winner highlighted |
+| 5 | Formula + 4 key takeaways |
+
+Formula: `Softmax(xᵢ) = eˣⁱ / Σ eˣʲ`
+
+---
+
+#### `relu_anim.py` — ReLU Activation Function
+
+```bash
+manim -pql relu_anim.py ReLUExplained
+```
+
+| Scene | Content |
+|-------|---------|
+| 1 | Water tap analogy |
+| 2 | Piecewise formula |
+| 3 | Animated graph (flat for negatives, diagonal for positives) |
+| 4 | 5 example values computed step by step |
+| 5 | Before / After bar chart with Transform animation |
+| 6 | Why we use ReLU in deep learning |
+
+Formula: `ReLU(x) = max(0, x)`
+
+---
+
+#### `sigmoid_anim.py` — Sigmoid Function
+
+```bash
+manim -pql sigmoid_anim.py SigmoidExplained
+```
+
+| Scene | Content |
+|-------|---------|
+| 1 | Dimmer switch analogy |
+| 2 | Formula breakdown |
+| 3 | S-curve graph with reference lines at 0, 0.5, 1 |
+| 4 | 5 values computed with % output |
+| 5 | Output bar chart |
+| 6 | Sigmoid vs Softmax comparison table |
+
+Formula: `σ(x) = 1 / (1 + e⁻ˣ)`
+
+---
+
+#### `cross_entropy_anim.py` — Cross-Entropy Loss
+
+```bash
+manim -pql cross_entropy_anim.py CrossEntropyExplained
+```
+
+| Scene | Content |
+|-------|---------|
+| 1 | Teacher grading analogy |
+| 2 | One-hot encoding explained |
+| 3 | The −log(p) curve — why it punishes wrong predictions |
+| 4 | Formula with legend |
+| 5 | Good prediction → low loss (0.357) |
+| 6 | Bad prediction → high loss (2.303) |
+| 7 | Side-by-side comparison |
+
+Formula: `L = −Σ yᵢ · log(ŷᵢ)`
+
+---
+
+### Planned Videos
+
+| # | Topic | File |
+|---|-------|------|
+| 1 | Single neuron forward pass | coming soon |
+| 2 | Three neuron layer | `three_neurons_anim.py` |
+| 3 | Two hidden layers | `two_hidden_layers_anim.py` |
+| 4 | Softmax | `softmax_anim.py` |
+| 5 | ReLU | `relu_anim.py` |
+| 6 | Sigmoid | `sigmoid_anim.py` |
+| 7 | Cross-Entropy Loss | `cross_entropy_anim.py` |
+| 8 | Backpropagation | coming soon |

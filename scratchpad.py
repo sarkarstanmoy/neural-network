@@ -1,12 +1,8 @@
 import numpy as np
-a = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15]]
-b = np.sum(a)
-print(b)
-b1 = np.sum(a, axis=0)
-print(b1)
-b2 = np.sum(a, axis=1)
-print(b2)
-b3 = np.sum(a, axis=0, keepdims=True)
-print(b3)
-b4 = np.sum(a, axis=1, keepdims=True)
-print(b4)
+softmax_outputs = [[ 0.7 , 0.1 , 0.2 ],
+[ 0.1 , 0.5 , 0.4 ],
+[ 0.02 , 0.9 , 0.08 ]]
+class_targets = [ 0 , 1 , 1 ]
+a = list(zip (class_targets, softmax_outputs))
+for targ_idx, distribution in zip (class_targets, softmax_outputs):
+    print (targ_idx, distribution)
