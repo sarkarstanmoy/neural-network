@@ -287,6 +287,79 @@ Formula: `L = −Σ yᵢ · log(ŷᵢ)`
 
 ---
 
+#### `loss_categorical_cross_entropy.py` — Categorical Cross-Entropy (Code)
+
+Implements the `Loss_CategoricalCrossentropy` class that computes cross-entropy loss in Python.
+
+**Key line — clipping predictions:**
+
+```python
+y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
+```
+
+`np.clip` forcefully limits every value to stay within `[min, max]` — like a volume knob that can't go below 1 or above 10.
+
+**Why clipping is needed:**
+
+Cross-entropy uses `log(y_pred)`. If any prediction is exactly `0`, `log(0)` is undefined and **crashes the program**:
+
+```python
+log(0.0)        # → ValueError: math domain error  ✗ CRASH
+log(0.0000001)  # → -16.1                          ✓ safe
+```
+
+So predictions are clipped before taking the log:
+
+| Original | Clipped | Reason |
+|----------|---------|--------|
+| `0.0` | `0.0000001` (`1e-7`) | too low — would cause crash |
+| `0.7` | `0.7` | fine, left alone |
+| `1.0` | `0.9999999` (`1-1e-7`) | symmetric upper limit |
+
+The lower clip (`1e-7`) is the critical one — it prevents `log(0)` crashes. The upper clip (`1 - 1e-7`) keeps probabilities consistent and symmetric.
+
+**Two formats for correct labels (`y_true`):**
+
+There are two ways to represent the correct class, and the code handles both:
+
+| Format | Shape | Example for "class 2 out of 3" |
+|--------|-------|--------------------------------|
+| Sparse | `(n,)` | `2` |
+| One-hot | `(n, 3)` | `[0, 0, 1]` |
+
+**Sparse** — stores the correct class as a single integer. Compact, no wasted space.
+
+```python
+y_true = [0, 2, 1]   # shape (3,) — class index per sample
+```
+
+**One-hot** — a row of zeros with a single `1` marking the correct class.
+
+```python
+y_true = [[1, 0, 0],   # class 0
+          [0, 0, 1],   # class 2
+          [0, 1, 0]]   # class 1
+# shape (3, 3)
+```
+
+> **Why one-hot?** If classes are stored as numbers (Cat=0, Dog=1, Bird=2), the number `2` looks mathematically "bigger" than `0` — implying a false ranking. One-hot removes that by giving each class its own position. In statistics this is called a **dummy variable** — same idea, different name.
+
+The code checks `len(y_true.shape)` to detect which format was passed, then extracts the predicted probability for the correct class accordingly:
+
+```python
+if len(y_true.shape) == 1:    # sparse
+    correct_confidences = y_pred_clipped[range(samples), y_true]
+    # directly indexes the correct class column per row
+
+elif len(y_true.shape) == 2:  # one-hot
+    correct_confidences = np.sum(y_pred_clipped * y_true, axis=1)
+    # zeros out wrong classes, keeps only the correct class probability
+```
+
+Both produce the same result — the predicted probability for the correct class for each sample.
+
+---
+
 ### Planned Videos
 
 | # | Topic | File |
