@@ -77,6 +77,52 @@ The 4 values in each sample map to the 4 input neurons. The 3 rows represent 3 s
 
 ---
 
+## 4. Spiral Dataset (`scratchpad.py`)
+
+The spiral dataset is a classic toy dataset used to test whether a neural network can learn **non-linear boundaries** between classes.
+
+```python
+X, y = spiral_data(samples=100, classes=3)
+```
+
+| Parameter | Value | Meaning |
+|-----------|-------|---------|
+| `samples` | 100 | Number of data points **per class** |
+| `classes` | 3 | Number of categories (spiral arms) |
+| **Total points** | **300** | `samples × classes = 100 × 3` |
+
+### Output shapes
+
+| Variable | Shape | Description |
+|----------|-------|-------------|
+| `X` | `(300, 2)` | 300 points, each with 2 features (x, y coordinates) |
+| `y` | `(300,)` | 300 labels — `0`, `1`, or `2` indicating which class each point belongs to |
+
+### Class breakdown
+
+```
+Class 0 → 100 points  ─┐
+Class 1 → 100 points  ─┼─ total: 300 points
+Class 2 → 100 points  ─┘
+```
+
+Each class forms one spiral arm. The dataset is intentionally hard to classify with a straight line — it requires a network to learn curved, non-linear decision boundaries.
+
+### Plotting the data
+
+```python
+import matplotlib.pyplot as plt
+
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='brg')
+plt.show()
+```
+
+- `X[:, 0]` — all rows, column 0 → x-axis (feature 1)
+- `X[:, 1]` — all rows, column 1 → y-axis (feature 2)
+- `c=y` — color each point by its class label
+
+---
+
 ## Key Concepts
 
 | Concept | Description |
@@ -253,3 +299,5 @@ Formula: `L = −Σ yᵢ · log(ŷᵢ)`
 | 6 | Sigmoid | `sigmoid_anim.py` |
 | 7 | Cross-Entropy Loss | `cross_entropy_anim.py` |
 | 8 | Backpropagation | coming soon |
+
+Manim command : manim -pql cross_entropy_anim.py CrossEntropyExplained
