@@ -1,6 +1,6 @@
 # Neural Network — From Single Neuron to Two Hidden Layers
 
-![Neural Network Diagram](image.png)
+![Neural Network Diagram](images/image.png)
 
 ---
 
